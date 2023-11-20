@@ -38,3 +38,15 @@ describe("GET /api/topics", () => {
     });
   });
 });
+
+describe("GET /api", ()=>{
+    test("200: returns an object with describptions of all available endpoints", ()=>{
+        return request(app)
+        .get("/api")
+        .expect(200)
+        .then((response)=>{
+            const endpoints = response.body
+            expect(endpoints).toBeObject()
+        })
+    });
+});
