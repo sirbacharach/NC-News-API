@@ -5,3 +5,5 @@ exports.selectAllTopics = () => {
     return results.rows;
   });
 };
+
+

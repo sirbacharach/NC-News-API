@@ -34,7 +34,48 @@ describe("GET /api/topics", () => {
       .expect(404)
       .then((response) => {
         const error = response.body;
-        expect(error.msg).toBe("path not found")
-    });
+        expect(error.msg).toBe("path not found");
+      });
   });
 });
+
+describe("GET /api/articles/:article_id", () => {
+  test("200: responds with an article object, which should have all relevant properties", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then((response) => {
+        const article = response.body;
+        expect(article).toMatchObject({
+          author: expect.any(String),
+          title: expect.any(String),
+          article_id: expect.any(Number),
+          body: expect.any(String),
+          topic: expect.any(String),
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String),
+        });
+      });
+  });
+
+  test("400: responds with an error when invalid article_id given", () => {
+    return request(app)
+      .get("/api/articles/potato")
+      .expect(400)
+      .then((response) => {
+       const error = response.body.msg
+       expect(error).toBe("invalid input")
+      });
+  });
+});
+
+test("400: responds with an error when invalid article_id given", () => {
+    return request(app)
+      .get("/api/articles/898989")
+      .expect(404)
+      .then((response) => {
+       const error = response.body.msg
+       expect(error).toBe("no records found")
+      });
+  });
