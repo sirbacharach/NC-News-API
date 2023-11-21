@@ -9,7 +9,9 @@ exports.psqlErrors = (err, req, res, next) => {
 };
 
 exports.customErrors = (err, req, res, next) => {
-  if (err.status) {
-    res.status(err.status).send({ msg: err.msg });
+  if (err) {
+    const { status, msg } = err;
+    res.status(status).send({msg: msg})
   }
-}
+};
+
