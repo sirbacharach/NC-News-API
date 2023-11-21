@@ -62,4 +62,44 @@ describe("POST /api/articles/:article_id/comments", () => {
         );
       });
   });
+
+  test("400 error when trying to add a comment for an article with non existant user/author.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "chuckleBrother",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("404 responds with error when attempting to add a comment for a non existant article_id.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/999/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("400 responds with error when attempt to add a comment with insufficient keys in body.", () => {
+    const newComment = {
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
 });
