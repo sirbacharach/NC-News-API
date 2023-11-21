@@ -34,7 +34,31 @@ describe("GET /api/topics", () => {
       .expect(404)
       .then((response) => {
         const error = response.body;
-        expect(error.msg).toBe("path not found")
-    });
+        expect(error.msg).toBe("path not found");
+      });
+  });
+});
+
+describe("GET /api/articles", () => {
+  test("200: responds with an array of all articles in order of date descending", () => {
+    return request(app)
+    .get("/api/articles")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.allArticles).toHaveLength(37);
+        expect(body.allArticles).toBeSortedBy("created_at");
+        body.allArticles.forEach((article) => {
+          expect(article).toMatchObject({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            article_img_url: expect.any(String),
+            comment_count: expect.any(String),
+          });
+        });
+      });
   });
 });
