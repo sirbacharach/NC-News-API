@@ -64,18 +64,18 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/potato")
       .expect(400)
       .then((response) => {
-       const error = response.body.msg
-       expect(error).toBe("invalid input")
+        const error = response.body.msg;
+        expect(error).toBe("invalid input");
       });
   });
-});
 
-test("400: responds with an error when invalid article_id given", () => {
+  test("400: responds with an error when invalid article_id given", () => {
     return request(app)
       .get("/api/articles/898989")
       .expect(404)
       .then((response) => {
-       const error = response.body.msg
-       expect(error).toBe("no records found")
+        const error = response.body.msg;
+        expect(error).toBe("no records found");
       });
   });
+});
