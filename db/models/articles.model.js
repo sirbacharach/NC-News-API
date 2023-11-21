@@ -11,8 +11,9 @@ exports.selectArticleComments = (article_id) => {
       [article_id]
     )
     .then(({ rows }) => {
-      if (rows.length === 0)
+      if (rows.length === 0) {
         return Promise.reject({ status: 404, msg: "not found" });
+      }
       return rows;
     });
 };
