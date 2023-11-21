@@ -44,12 +44,12 @@ describe("GET /api/articles/:article_id", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
-      .then((response) => {
-        const article = response.body;
+      .then(({body}) => {
+        const article = body.article;
         expect(article).toMatchObject({
           author: expect.any(String),
           title: expect.any(String),
-          article_id: expect.any(Number),
+          article_id: 1,
           body: expect.any(String),
           topic: expect.any(String),
           created_at: expect.any(String),
@@ -69,7 +69,7 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 
-  test("400: responds with an error when invalid article_id given", () => {
+  test("404: responds with an error when a non-existant article_id given", () => {
     return request(app)
       .get("/api/articles/898989")
       .expect(404)
