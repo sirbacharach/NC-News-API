@@ -1,5 +1,5 @@
-const { selectAllTopics, selectAllArticles } = require("../models/topics.model");
-
+const { selectAllTopics } = require("../models/topics.model");
+const { selectAllArticles } = require("../models/articles.model");
 
 exports.getAllTopics = (req, res, next) =>{
 return selectAllTopics()

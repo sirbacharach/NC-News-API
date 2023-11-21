@@ -1,10 +1,18 @@
-const express = require("express")
-const { getAllTopics, getAllArticles } = require("./db/controllers/topics.controller")
-const { wrongPathError } = require("./errors")
-const app = express()
+const express = require("express");
+const { getAllTopics } = require("./db/controllers/topics.controller");
+const { getArticleById, getAllArticles } = require("./db/controllers/articles.controller");
+const { wrongPathError, customErrors } = require("./errors");
+const { psqlErrors, customErrors} = require("./errors");
+const app = express();
 
-app.get("/api/topics", getAllTopics)
+app.use(express.json());
+
+app.get("/api/topics", getAllTopics);
 app.get("/api/articles", getAllArticles)
-app.get("*", wrongPathError)
+app.get("/api/articles/:article_id", getArticleById);
+app.get("*", wrongPathError);
 
-module.exports = app
+app.use(psqlErrors)
+app.use(customErrors)
+
+module.exports = app;
