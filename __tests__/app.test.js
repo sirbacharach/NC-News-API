@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const seed = require("../db/seeds/seed");
 const db = require("../db/connection");
+const actualEndPoints = require("../endpoints.json");
 const {
   topicData,
   userData,
@@ -34,19 +35,19 @@ describe("GET /api/topics", () => {
       .expect(404)
       .then((response) => {
         const error = response.body;
-        expect(error.msg).toBe("path not found")
-    });
+        expect(error.msg).toBe("path not found");
+      });
   });
 });
 
-describe("GET /api", ()=>{
-    test("200: returns an object with describptions of all available endpoints", ()=>{
-        return request(app)
-        .get("/api")
-        .expect(200)
-        .then((response)=>{
-            const endpoints = response.body
-            expect(endpoints).toBeObject()
-        })
-    });
+describe("GET /api", () => {
+  test("200: returns an object with describptions of all available endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const endpoints = response.body;
+        expect(endpoints).toEqual(actualEndPoints);
+      });
+  });
 });
