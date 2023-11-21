@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const seed = require("../db/seeds/seed");
 const db = require("../db/connection");
+const actualEndPoints = require("../endpoints.json");
 const {
   topicData,
   userData,
@@ -39,7 +40,16 @@ describe("GET /api/topics", () => {
   });
 });
 
-describe("GET /api/articles", () => {
+describe("GET /api", () => {
+  test("200: returns an object with describptions of all available endpoints", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const endpoints = response.body;
+        expect(endpoints).toEqual(actualEndPoints);
+
+      describe("GET /api/articles", () => {
   test("200: responds with an array of all articles in order of date descending", () => {
     return request(app)
       .get("/api/articles")
