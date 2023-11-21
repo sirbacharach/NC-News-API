@@ -42,7 +42,7 @@ describe("GET /api/topics", () => {
 describe("GET /api/articles", () => {
   test("200: responds with an array of all articles in order of date descending", () => {
     return request(app)
-    .get("/api/articles")
+      .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
         expect(body.allArticles).toHaveLength(13);
@@ -60,13 +60,14 @@ describe("GET /api/articles", () => {
           });
         });
       });
-
-    describe("GET /api/articles/:article_id", () => {
+  });
+});
+describe("GET /api/articles/:article_id", () => {
   test("200: responds with an article object, which should have all relevant properties", () => {
     return request(app)
       .get("/api/articles/1")
       .expect(200)
-      .then(({body}) => {
+      .then(({ body }) => {
         const article = body.article;
         expect(article).toMatchObject({
           author: expect.any(String),
