@@ -7,7 +7,7 @@ const {
   userData,
   articleData,
   commentData,
-} = require("../db/data/development-data/index");
+} = require("../db/data/test-data/index");
 
 beforeEach(() => seed({ topicData, userData, articleData, commentData }));
 afterAll(() => db.end());
@@ -45,7 +45,7 @@ describe("GET /api/articles", () => {
     .get("/api/articles")
       .expect(200)
       .then(({ body }) => {
-        expect(body.allArticles).toHaveLength(37);
+        expect(body.allArticles).toHaveLength(13);
         expect(body.allArticles).toBeSortedBy("created_at");
         body.allArticles.forEach((article) => {
           expect(article).toMatchObject({
