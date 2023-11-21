@@ -10,9 +10,9 @@ app.use(express.json());
 
 app.get("/api/topics", getAllTopics);
 app.get("/api", getEndpoints);
-app.get("*", wrongPathError);
 app.get("/api/articles", getAllArticles)
 app.get("/api/articles/:article_id", getArticleById);
+app.get("*", wrongPathError);
 
 app.use(psqlErrors)
 app.use(customErrors)

@@ -48,8 +48,11 @@ describe("GET /api", () => {
       .then((response) => {
         const endpoints = response.body;
         expect(endpoints).toEqual(actualEndPoints);
+      });
+  });
+});
 
-      describe("GET /api/articles", () => {
+describe("GET /api/articles", () => {
   test("200: responds with an array of all articles in order of date descending", () => {
     return request(app)
       .get("/api/articles")

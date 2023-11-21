@@ -9,6 +9,7 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
+  console.log("you're here")
     return selectAllArticles()
     .then((allArticles) => {
         res.status(200).send({allArticles})
