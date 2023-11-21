@@ -1,9 +1,15 @@
-const express = require("express")
-const { getAllTopics } = require("./db/controllers/topics.controller")
-const { wrongPathError } = require("./errors")
-const app = express()
+const express = require("express");
+const { getAllTopics } = require("./db/controllers/topics.controller");
+const { wrongPathError } = require("./errors");
+const {
+  postCommentsByArticleId,
+} = require("./db/controllers/articles.controller");
+const app = express();
 
-app.get("/api/topics", getAllTopics)
-app.get("*", wrongPathError)
+app.use(express.json());
 
-module.exports = app
+app.get("/api/topics", getAllTopics);
+app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
+app.get("*", wrongPathError);
+
+module.exports = app;

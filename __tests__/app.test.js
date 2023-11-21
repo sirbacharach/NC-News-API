@@ -7,7 +7,7 @@ const {
   userData,
   articleData,
   commentData,
-} = require("../db/data/development-data/index");
+} = require("../db/data/test-data/index");
 
 beforeEach(() => seed({ topicData, userData, articleData, commentData }));
 afterAll(() => db.end());
@@ -34,7 +34,32 @@ describe("GET /api/topics", () => {
       .expect(404)
       .then((response) => {
         const error = response.body;
-        expect(error.msg).toBe("path not found")
-    });
+        expect(error.msg).toBe("path not found");
+      });
+  });
+});
+
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201 adds a comment for an article.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        body.addedComments.forEach((comment) =>
+          expect(comment).toMatchObject({
+            comment_id: 19,
+            body: "superDuperist comment of all time",
+            votes: 0,
+            author: "icellusedkars",
+            article_id: 2,
+            created_at: expect.any(String),
+          })
+        );
+      });
   });
 });
