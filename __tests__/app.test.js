@@ -102,4 +102,17 @@ describe("POST /api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("bad request");
       });
   });
+
+  test("400 responds with error when invalid article_id given", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/nonesense/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
 });
