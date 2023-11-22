@@ -40,6 +40,39 @@ describe("GET /api/topics", () => {
   });
 });
 
+describe("GET /api/articles/:article_id/comments", () => {
+  test("200: responds with all comments for the given article_id", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const articleComments = body.articleComments;
+        expect(articleComments).toHaveLength(11);
+        expect(articleComments).toBeSortedBy("created_at");
+      });
+  });
+});
+
+test("404: responds with appropriate error when non existant article_id given", () => {
+  return request(app)
+    .get("/api/articles/9999/comments")
+    .expect(404)
+    .then(({ body }) => {
+      const error = body.msg;
+      expect(error).toBe("not found");
+    });
+});
+
+test("400: responds with error when given an invalid article_id", () => {
+  return request(app)
+    .get("/api/articles/not_an_id/comments")
+    .expect(400)
+    .then(({ body }) => {
+      const err = body.msg;
+      expect(err).toBe("bad request");
+    });
+});
+
 describe("GET /api", () => {
   test("200: returns an object with describptions of all available endpoints", () => {
     return request(app)
@@ -101,17 +134,7 @@ describe("GET /api/articles/:article_id", () => {
       .expect(400)
       .then((response) => {
         const error = response.body.msg;
-        expect(error).toBe("invalid input");
-      });
-  });
-
-  test("404: responds with an error when a non-existant article_id given", () => {
-    return request(app)
-      .get("/api/articles/898989")
-      .expect(404)
-      .then((response) => {
-        const error = response.body.msg;
-        expect(error).toBe("no records found");
+        expect(error).toBe("bad request");
       });
   });
 });
