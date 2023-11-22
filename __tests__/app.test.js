@@ -217,3 +217,9 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
+
+// describe("DELETE /api/comments/:comment_id", () => {
+//   test("204: responds with appropriate message when given an article_id to delete")
+//   return request(app)
+//   .delete("/api/comments/1")
+// })
