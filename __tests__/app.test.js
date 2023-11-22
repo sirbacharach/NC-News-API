@@ -40,6 +40,84 @@ describe("GET /api/topics", () => {
   });
 });
 
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201 adds a comment for an article.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        body.addedComments.forEach((comment) =>
+          expect(comment).toMatchObject({
+            comment_id: 19,
+            body: "superDuperist comment of all time",
+            votes: 0,
+            author: "icellusedkars",
+            article_id: 2,
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+
+  test("400 error when trying to add a comment for an article with non existant user/author.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "chuckleBrother",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("404 responds with error when attempting to add a comment for a non existant article_id.", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/999/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("400 responds with error when attempt to add a comment with insufficient keys in body.", () => {
+    const newComment = {
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newComment)
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("400 responds with error when invalid article_id given", () => {
+    const newComment = {
+      body: "superDuperist comment of all time",
+      author: "icellusedkars",
+    };
+    return request(app)
+      .post("/api/articles/nonesense/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id/comments", () => {
   test("200: responds with all comments for the given article_id", () => {
     return request(app)
@@ -51,26 +129,26 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(articleComments).toBeSortedBy("created_at");
       });
   });
-});
 
-test("404: responds with appropriate error when non existant article_id given", () => {
-  return request(app)
-    .get("/api/articles/9999/comments")
-    .expect(404)
-    .then(({ body }) => {
-      const error = body.msg;
-      expect(error).toBe("not found");
-    });
-});
+  test("404: responds with appropriate error when non existant article_id given", () => {
+    return request(app)
+      .get("/api/articles/9999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        const error = body.msg;
+        expect(error).toBe("not found");
+      });
+  });
 
-test("400: responds with error when given an invalid article_id", () => {
-  return request(app)
-    .get("/api/articles/not_an_id/comments")
-    .expect(400)
-    .then(({ body }) => {
-      const err = body.msg;
-      expect(err).toBe("bad request");
-    });
+  test("400: responds with error when given an invalid article_id", () => {
+    return request(app)
+      .get("/api/articles/not_an_id/comments")
+      .expect(400)
+      .then(({ body }) => {
+        const err = body.msg;
+        expect(err).toBe("bad request");
+      });
+  });
 });
 
 describe("GET /api", () => {
@@ -108,6 +186,7 @@ describe("GET /api/articles", () => {
       });
   });
 });
+
 describe("GET /api/articles/:article_id", () => {
   test("200: responds with an article object, which should have all relevant properties", () => {
     return request(app)
