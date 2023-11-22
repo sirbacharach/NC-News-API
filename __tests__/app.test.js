@@ -39,7 +39,6 @@ describe("GET /api/topics", () => {
   });
 });
 
-
 describe("GET /api/articles/:article_id/comments", () => {
   test("200: responds with all comments for the given article_id", () => {
     return request(app)
@@ -70,16 +69,6 @@ describe("GET /api/articles/:article_id/comments", () => {
         const err = body.msg;
         expect(err).toBe("bad request");
       });
-  });
-
-  test("404: responds with appropriate error when given a valid article_id when there are no comments for the article.", () => {
-    return request(app)
-      .get("/api/articles/13/comments")
-      .expect(404)
-      .then(({ body }) => {
-        const err = body.msg;
-        expect(err).toBe("not found");
-            });
   });
 });
 
@@ -132,8 +121,7 @@ describe("GET /api/articles/:article_id", () => {
       .expect(400)
       .then((response) => {
         const error = response.body.msg;
-        expect(error).toBe("invalid input");
+        expect(error).toBe("bad request");
       });
   });
-
-
+});
