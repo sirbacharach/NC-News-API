@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../app");
 const seed = require("../db/seeds/seed");
 const db = require("../db/connection");
+const actualEndPoints = require("../endpoints.json");
 const {
   topicData,
   userData,
@@ -50,24 +51,36 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(articleComments).toBeSortedBy("created_at");
       });
   });
+});
 
-  test("404: responds with appropriate error when non existant article_id given", () => {
-    return request(app)
-      .get("/api/articles/9999/comments")
-      .expect(404)
-      .then(({ body }) => {
-        const error = body.msg;
-        expect(error).toBe("not found");
-      });
-  });
+test("404: responds with appropriate error when non existant article_id given", () => {
+  return request(app)
+    .get("/api/articles/9999/comments")
+    .expect(404)
+    .then(({ body }) => {
+      const error = body.msg;
+      expect(error).toBe("not found");
+    });
+});
 
-  test("400: responds with error when given an invalid article_id", () => {
+test("400: responds with error when given an invalid article_id", () => {
+  return request(app)
+    .get("/api/articles/not_an_id/comments")
+    .expect(400)
+    .then(({ body }) => {
+      const err = body.msg;
+      expect(err).toBe("bad request");
+    });
+});
+
+describe("GET /api", () => {
+  test("200: returns an object with describptions of all available endpoints", () => {
     return request(app)
-      .get("/api/articles/not_an_id/comments")
-      .expect(400)
-      .then(({ body }) => {
-        const err = body.msg;
-        expect(err).toBe("bad request");
+      .get("/api")
+      .expect(200)
+      .then((response) => {
+        const endpoints = response.body;
+        expect(endpoints).toEqual(actualEndPoints);
       });
   });
 });
