@@ -1,5 +1,21 @@
 const db = require("../connection");
 
+exports.insertCommentsByArticleId = (article_id, commentToInsert) => {
+  const body = commentToInsert.body;
+  const author = commentToInsert.author;
+  return db
+    .query(
+      `INSERT INTO comments
+    (body, article_id, author)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+      [body, article_id, author]    )
+      .then(({ rows }) => {
+        return rows;
+      });
+  };
+  
+
 exports.selectArticleComments = (article_id) => {
   return db
     .query(
@@ -38,6 +54,7 @@ exports.selectAllArticles = () => {
     ON comments.article_id = articles.article_id
     GROUP BY articles.article_id
     ORDER BY created_at;`
+
     )
     .then(({ rows }) => {
       return rows;
