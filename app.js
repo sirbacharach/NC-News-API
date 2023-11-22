@@ -4,9 +4,9 @@ const {
   getArticleById,
   getAllArticles,
   patchArticleById,
+  getArticleComments,
 } = require("./db/controllers/articles.controller");
-const { wrongPathError } = require("./errors");
-const { psqlErrors, customErrors } = require("./errors");
+const { wrongPathError, psqlErrors, customErrors } = require("./errors");
 const { getEndpoints } = require("./db/controllers/api.controller");
 
 const app = express();
@@ -16,6 +16,7 @@ app.get("/api/topics", getAllTopics);
 app.get("/api", getEndpoints);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
+app.get("/api/articles/:article_id/comments", getArticleComments);
 app.patch("/api/articles/:article_id", patchArticleById);
 app.get("*", wrongPathError);
 
