@@ -6,7 +6,7 @@ exports.selectArticleById = (article_id) => {
     .then((response) => {
       const article = response.rows[0];
       if (response.rows.length === 0)
-        return Promise.reject({ status: 404, msg: "no records found" });
+        return Promise.reject({ status: 404, msg: "not found" });
       return article;
     });
 };

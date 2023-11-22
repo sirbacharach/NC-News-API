@@ -111,7 +111,7 @@ describe("GET /api/articles/:article_id", () => {
       .expect(404)
       .then((response) => {
         const error = response.body.msg;
-        expect(error).toBe("no records found");
+        expect(error).toBe("not found");
       });
   });
 });
@@ -153,15 +153,15 @@ describe("PATCH /api/articles/:article_id", () => {
       });
   });
 
-  // test.only("400: responds with error when given a non existant article_id", () => {
-  //   const newVotes = { inc_votes: 2 };
-  //   return request(app)
-  //     .patch("/api/articles/9998")
-  //     .expect(400)
-  //     .send(newVotes)
-  //     .then(({ body }) => {
-  //       expect(body.msg).toBe("bad request");
-  //     });
-  // });
+  test("404: responds with error when given a non existant article_id", () => {
+    const newVotes = { inc_votes: 2 };
+    return request(app)
+      .patch("/api/articles/9998")
+      .expect(404)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
 
 });

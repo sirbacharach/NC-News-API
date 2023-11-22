@@ -3,7 +3,6 @@ exports.wrongPathError = (req, res) => {
 };
 
 exports.psqlErrors = (err, req, res, next) => {
-  console.log(err)
   if (err.code === "22P02" || err.code === "23502") {
     res.status(400).send({ msg: "bad request" });
   } else next(err);
