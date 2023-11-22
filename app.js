@@ -20,7 +20,7 @@ app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getArticleComments);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
-app.delete("/api/comments/:comment_id", deleteCommentById)
+app.delete("/api/comments/:comment_id", deleteCommentById);
 app.get("*", wrongPathError);
 
 app.use(psqlErrors);

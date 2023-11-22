@@ -3,7 +3,7 @@ const {
   selectAllArticles,
   selectArticleComments,
   insertCommentsByArticleId,
-  selectCommentsById
+  selectCommentsById,
 } = require("../models/articles.model");
 
 exports.postCommentsByArticleId = (req, res, next) => {
