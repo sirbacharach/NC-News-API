@@ -6,6 +6,7 @@ const {
   insertCommentsByArticleId,
   selectCommentsById,
 } = require("../models/articles.model");
+const { selectAllTopics } = require("../models/topics.model");
 
 exports.postCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
@@ -39,9 +40,13 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-  return selectAllArticles()
-    .then((allArticles) => {
-      res.status(200).send({ allArticles });
+  const { topic } = req.query;
+  return selectAllTopics(topic)
+    .then(() => {
+      return selectAllArticles(topic);
+    })
+    .then((returnedPromise) => {
+      res.status(200).send({ articles: returnedPromise });
     })
     .catch(next);
 };

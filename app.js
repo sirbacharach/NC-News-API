@@ -20,7 +20,7 @@ app.get("/api/topics", getAllTopics);
 app.get("/api", getEndpoints);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
-app.get("/api/users", getAllUsers)
+app.get("/api/users", getAllUsers);
 app.get("/api/articles/:article_id/comments", getArticleComments);
 app.patch("/api/articles/:article_id", patchArticleById);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
