@@ -332,16 +332,33 @@ describe("DELETE /api/comments/:comment_id", () => {
 });
 
 describe("GET /api/articles/:article_id (comment_count)", () => {
-  test("200: responds with object with a count of the total of the articles with the requested article_id", () =>{
+  test("200: responds with object with a count of the total of the articles with the requested article_id", () => {
     return request(app)
-    .get("/api/articles/1?query=comment_count")
-    .expect(200)
-    .then(({body})=>{
-        const {resultCount } = body;
-    console.log(resultCount)
-    expect(resultCount[0]).toMatchObject({
-      "count": "11"
-    })
-    })
-  })
-})
+      .get("/api/articles/1?query=comment_count")
+      .expect(200)
+      .then(({ body }) => {
+        const { resultCount } = body;
+        expect(resultCount[0]).toMatchObject({
+          count: "11",
+        });
+      });
+  });
+
+  test("400: responds with error when given invalid article_id", () => {
+    return request(app)
+      .get("/api/articles/not_an_id?query=comment_count")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("404: responds with error when given a non existant article_id", () => {
+    return request(app)
+      .get("/api/articles/9999?query=comment_count")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+});

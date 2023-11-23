@@ -34,9 +34,13 @@ exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   const { query } = req.query;
   if (query === "comment_count" && article_id) {
-    return selectArticleCommentCount(article_id).then((resultCount) => {
-      res.status(200).send({ resultCount })
-    });
+    const promise1 = selectArticleCommentCount(article_id);
+    const promise2 = selectArticleById(article_id);
+    return Promise.all([promise1, promise2])
+      .then((resultCount) => {
+        res.status(200).send({ resultCount: resultCount[0] });
+      })
+      .catch(next);
   } else {
     return selectArticleById(article_id)
       .then((article) => {
