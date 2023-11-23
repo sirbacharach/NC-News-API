@@ -7,7 +7,6 @@ const {
   patchArticleById,
   getArticleComments,
   postCommentsByArticleId,
-  getArticleCommentCount
 } = require("./db/controllers/articles.controller");
 const { wrongPathError, psqlErrors, customErrors } = require("./errors");
 const { getEndpoints } = require("./db/controllers/api.controller");
@@ -23,7 +22,6 @@ app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/users", getAllUsers)
 app.get("/api/articles/:article_id/comments", getArticleComments);
-app.get("/api/articles/1?comment_count", getArticleCommentCount)
 app.patch("/api/articles/:article_id", patchArticleById);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 app.delete("/api/comments/:comment_id", deleteCommentById);

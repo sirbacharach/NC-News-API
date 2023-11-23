@@ -32,11 +32,18 @@ exports.getArticleComments = (req, res, next) => {
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  return selectArticleById(article_id)
-    .then((article) => {
-      res.status(200).send({ article });
-    })
-    .catch(next);
+  const { query } = req.query;
+  if (query === "comment_count" && article_id) {
+    return selectArticleCommentCount(article_id).then((resultCount) => {
+      res.status(200).send({ resultCount })
+    });
+  } else {
+    return selectArticleById(article_id)
+      .then((article) => {
+        res.status(200).send({ article });
+      })
+      .catch(next);
+  }
 };
 
 exports.getAllArticles = (req, res, next) => {
@@ -57,13 +64,5 @@ exports.patchArticleById = (req, res, next) => {
       const updatedRecord = returnedPromise[0];
       res.status(200).send({ updatedRecord });
     })
-    .catch(next);
-};
-
-exports.getArticleCommentCount = (req, res, next) => {
-  const { comment_count } = req.params;
-  console.log("in controller");
-  return selectArticleCommentCount(comment_count)
-    .then((commentCount) => {})
     .catch(next);
 };
