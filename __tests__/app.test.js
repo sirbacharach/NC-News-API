@@ -275,4 +275,15 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(body.msg).toBe("not found");
       });
   });
+
+  test("400: responds with error if votes to be added is a negative value, dissallowing vote reduction", () => {
+    const newVotes = { inc_votes: -2 };
+    return request(app)
+      .patch("/api/articles/1")
+      .expect(400)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
 });

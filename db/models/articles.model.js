@@ -9,12 +9,12 @@ exports.insertCommentsByArticleId = (article_id, commentToInsert) => {
     (body, article_id, author)
         VALUES ($1, $2, $3)
         RETURNING *`,
-      [body, article_id, author]    )
-      .then(({ rows }) => {
-        return rows;
-      });
-  };
-  
+      [body, article_id, author]
+    )
+    .then(({ rows }) => {
+      return rows;
+    });
+};
 
 exports.selectArticleComments = (article_id) => {
   return db
@@ -54,7 +54,6 @@ exports.selectAllArticles = () => {
     ON comments.article_id = articles.article_id
     GROUP BY articles.article_id
     ORDER BY created_at;`
-
     )
     .then(({ rows }) => {
       return rows;
@@ -62,6 +61,7 @@ exports.selectAllArticles = () => {
 };
 
 exports.updateArticleById = (article_id, inc_votes) => {
+  if (inc_votes < 1) return Promise.reject({ status: 400, msg: "bad request" });
   return db
     .query(
       `UPDATE articles
