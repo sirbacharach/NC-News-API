@@ -4,6 +4,7 @@ const { getAllTopics } = require("./db/controllers/topics.controller");
 const {
   getArticleById,
   getAllArticles,
+  patchArticleById,
   getArticleComments,
   postCommentsByArticleId,
 } = require("./db/controllers/articles.controller");
@@ -19,6 +20,7 @@ app.get("/api", getEndpoints);
 app.get("/api/articles", getAllArticles);
 app.get("/api/articles/:article_id", getArticleById);
 app.get("/api/articles/:article_id/comments", getArticleComments);
+app.patch("/api/articles/:article_id", patchArticleById);
 app.post("/api/articles/:article_id/comments", postCommentsByArticleId);
 app.delete("/api/comments/:comment_id", deleteCommentById);
 app.get("*", wrongPathError);

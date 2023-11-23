@@ -216,6 +216,76 @@ describe("GET /api/articles/:article_id", () => {
         expect(error).toBe("bad request");
       });
   });
+
+  test("404: responds with an error when a non-existant article_id given", () => {
+    return request(app)
+      .get("/api/articles/898989")
+      .expect(404)
+      .then((response) => {
+        const error = response.body.msg;
+        expect(error).toBe("not found");
+      });
+  });
+});
+
+describe("PATCH /api/articles/:article_id", () => {
+  test("200: adds the amount of votes in the given votes object to the total votes of given article_id", () => {
+    const newVotes = { inc_votes: 2 };
+    return request(app)
+      .patch("/api/articles/1")
+      .expect(200)
+      .send(newVotes)
+      .then(({ body }) => {
+        const updatedRecord = body.updatedRecord;
+        expect(updatedRecord).toHaveLength(1);
+        expect(updatedRecord[0].votes).toBe(102);
+        expect(updatedRecord[0].article_id).toBe(1);
+      });
+  });
+
+  test("400: responds with error when given an object with the wrong fields", () => {
+    const newVotes = { potatoes: 2 };
+    return request(app)
+      .patch("/api/articles/1")
+      .expect(400)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("400: responds with error when given an invalid article_id", () => {
+    const newVotes = { inc_votes: 2 };
+    return request(app)
+      .patch("/api/articles/not_an_id")
+      .expect(400)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+  test("404: responds with error when given a non existant article_id", () => {
+    const newVotes = { inc_votes: 2 };
+    return request(app)
+      .patch("/api/articles/9998")
+      .expect(404)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+
+  test("400: responds with error if votes to be added is a negative value, dissallowing vote reduction", () => {
+    const newVotes = { inc_votes: -2 };
+    return request(app)
+      .patch("/api/articles/1")
+      .expect(400)
+      .send(newVotes)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
 });
 
 describe("DELETE /api/comments/:comment_id", () => {
