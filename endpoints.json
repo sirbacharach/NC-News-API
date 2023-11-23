@@ -94,5 +94,10 @@
         }
       ]
     }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes the chosen record",
+    "queries": [],
+    "exampleResponse": { "status": 404, "msg": "not found" }
   }
 }
