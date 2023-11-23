@@ -223,7 +223,7 @@ describe("DELETE /api/comments/:comment_id", () => {
     return request(app).delete("/api/comments/2").expect(204);
   });
 
-  test.only("404: responds with appropriate error message when given a non existant article_id to delete", () => {
+  test("404: responds with appropriate error message when given a non existant article_id to delete", () => {
     return request(app)
       .delete("/api/comments/4000")
       .expect(404)
