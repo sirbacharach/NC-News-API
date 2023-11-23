@@ -1,11 +1,9 @@
 const { selectAllUsers } = require("../models/users.model");
 
-
-exports.getAllUsers = (req, res, next) =>{
-    console.log("you are in controller")
-    return selectAllUsers()
+exports.getAllUsers = (req, res, next) => {
+  return selectAllUsers()
     .then((allUsers) => {
-        console.log(allUsers)
+      res.status(200).send({ allUsers: allUsers });
     })
-    .catch(next)
+    .catch(next);
 };

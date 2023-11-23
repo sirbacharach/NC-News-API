@@ -218,20 +218,21 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
-// describe("GET /api/users", ()=>{
-//   test("200: responds with array of objects with required fields", ()=>{
-//     return request(app)
-//     .get("/api/users")
-//     .expect(200)
-//     .then(({body})=>{
-//       expect(body).toHaveLength(4)
-//       body.forEach((user)=>{
-//         expect(user).toMatchObject({
-//           "username": expect.any(String),
-//           "name": expect.any(String),
-//           "avatar_url": expect.any(String)
-//         })
-//       })
-//     })
-//   })
-// })
+describe("GET /api/users", () => {
+  test("200: responds with array of objects with required fields", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { allUsers } = body;
+        expect(allUsers).toHaveLength(4);
+        allUsers.forEach((user) => {
+          expect(user).toMatchObject({
+            username: expect.any(String),
+            name: expect.any(String),
+            avatar_url: expect.any(String),
+          });
+        });
+      });
+  });
+});

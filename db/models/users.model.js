@@ -1,8 +1,9 @@
-const db = require("../connection")
+const db = require("../connection");
 
-exports.selectAllUsers = () =>{
-    console.log("you are in model")
-return db.query(``).then(({rows})=>{
-    return rows;
-});
+exports.selectAllUsers = () => {
+  return db
+    .query(`SELECT username, name, avatar_url FROM users`)
+    .then(({ rows }) => {
+      return rows;
+    });
 };
