@@ -55,7 +55,7 @@ exports.patchArticleById = (req, res, next) => {
   return Promise.all([updateArticle, checkIfArticleExists])
     .then((returnedPromise) => {
       const updatedRecord = returnedPromise[0];
-      res.status(202).send({ updatedRecord });
+      res.status(200).send({ updatedRecord });
     })
     .catch(next);
 };

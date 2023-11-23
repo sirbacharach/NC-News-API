@@ -229,11 +229,11 @@ describe("GET /api/articles/:article_id", () => {
 });
 
 describe("PATCH /api/articles/:article_id", () => {
-  test("202: adds the amount of votes in the given votes object to the total votes of given article_id", () => {
+  test("200: adds the amount of votes in the given votes object to the total votes of given article_id", () => {
     const newVotes = { inc_votes: 2 };
     return request(app)
       .patch("/api/articles/1")
-      .expect(202)
+      .expect(200)
       .send(newVotes)
       .then(({ body }) => {
         const updatedRecord = body.updatedRecord;
