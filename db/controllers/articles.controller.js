@@ -34,7 +34,7 @@ exports.getArticleComments = (req, res, next) => {
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   const { query } = req.query;
-  if (query === "comment_count" && article_id) {
+  if (query === "comment_count") {
     const promise1 = selectArticleCommentCount(article_id);
     const promise2 = selectArticleById(article_id);
     return Promise.all([promise1, promise2])
