@@ -363,4 +363,15 @@ describe("GET /api/articles (topic query)", () => {
         expect(msg).toBe("bad request");
       });
   });
+
+  test("200: returns empty array when the topic exists but there are no articles with that topic.", () => {
+    return request(app)
+      .get("/api/articles?topic=paper")
+      .expect(200)
+      .then(({ body }) => {
+      const {articles} = body
+      expect(articles).toHaveLength(0);
+      });
+  });
+
 });
