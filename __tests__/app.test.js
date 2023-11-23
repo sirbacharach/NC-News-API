@@ -288,6 +288,25 @@ describe("PATCH /api/articles/:article_id", () => {
   });
 });
 
+describe("GET /api/users", () => {
+  test("200: responds with array of objects with required fields", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { allUsers } = body;
+        expect(allUsers).toHaveLength(4);
+        allUsers.forEach((user) => {
+          expect(user).toMatchObject({
+            username: expect.any(String),
+            name: expect.any(String),
+            avatar_url: expect.any(String),
+          });
+        });
+      });
+  });
+});
+
 describe("DELETE /api/comments/:comment_id", () => {
   test("204: responds with appropriate message when given an article_id to delete", () => {
     return request(app).delete("/api/comments/2").expect(204);
