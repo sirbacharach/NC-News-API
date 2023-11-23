@@ -48,20 +48,6 @@ exports.selectArticleById = (article_id) => {
     });
 };
 
-exports.selectAllArticles = () => {
-  return db
-    .query(
-      `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id) AS comment_count FROM articles
-    LEFT JOIN comments
-    ON comments.article_id = articles.article_id
-    GROUP BY articles.article_id
-    ORDER BY created_at;`
-    )
-    .then(({ rows }) => {
-      return rows;
-    });
-};
-
 exports.updateArticleById = (article_id, inc_votes) => {
   if (inc_votes < 1) return Promise.reject({ status: 400, msg: "bad request" });
   return db
@@ -75,6 +61,23 @@ exports.updateArticleById = (article_id, inc_votes) => {
     .then(({ rows }) => {
       return rows;
     });
+};
+
+exports.selectAllArticles = (topic) => {
+  let queryString = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id) AS comment_count FROM articles
+  LEFT JOIN comments
+  ON comments.article_id = articles.article_id `;
+  const queryValue = [];
+  if (topic) {
+    queryValue.push(topic);
+    queryString += `WHERE topic = $1 `;
+  }
+  queryString += `GROUP BY articles.article_id
+ORDER BY created_at;`;
+
+  return db.query(queryString, queryValue).then(({ rows }) => {
+    return rows;
+  });
 };
 
 exports.selectCommentsById = (article_id) => {
