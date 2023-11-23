@@ -353,4 +353,14 @@ describe("GET /api/articles (topic query)", () => {
         });
       });
   });
+
+  test("400: returns error when non existant topic is given", () => {
+    return request(app)
+      .get("/api/articles?topic=elephants")
+      .expect(400)
+      .then(({ body }) => {
+        const { msg } = body;
+        expect(msg).toBe("bad request");
+      });
+  });
 });
