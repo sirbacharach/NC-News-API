@@ -41,11 +41,12 @@ exports.getArticleById = (req, res, next) => {
 
 exports.getAllArticles = (req, res, next) => {
   const { topic } = req.query;
-  const promise1 = selectAllArticles(topic);
-  const promise2 = selectAllTopics(topic);
-  return Promise.all([promise1, promise2])
+  return selectAllTopics(topic)
+    .then(() => {
+      return selectAllArticles(topic);
+    })
     .then((returnedPromise) => {
-      res.status(200).send({ articles: returnedPromise[0] });
+      res.status(200).send({ articles: returnedPromise });
     })
     .catch(next);
 };

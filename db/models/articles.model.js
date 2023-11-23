@@ -62,12 +62,11 @@ exports.updateArticleById = (article_id, inc_votes) => {
 };
 
 exports.selectAllArticles = (topic) => {
-  const validTopics = ["mitch", "cats", "paper"];
   let queryString = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id) AS comment_count FROM articles
   LEFT JOIN comments
   ON comments.article_id = articles.article_id `;
   const queryValue = [];
-  if (topic && validTopics.includes(topic)) {
+  if (topic) {
     queryValue.push(topic);
     queryString += `WHERE topic = $1 `;
   }
