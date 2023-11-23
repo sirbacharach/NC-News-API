@@ -3,8 +3,8 @@ const {
   selectAllArticles,
   selectArticleComments,
   insertCommentsByArticleId,
+  selectCommentsById,
 } = require("../models/articles.model");
-const { selectCommentsById } = require("../models/comments.model");
 
 exports.postCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;

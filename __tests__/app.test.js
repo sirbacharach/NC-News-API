@@ -217,3 +217,27 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("DELETE /api/comments/:comment_id", () => {
+  test("204: responds with appropriate message when given an article_id to delete", () => {
+    return request(app).delete("/api/comments/2").expect(204);
+  });
+
+  test("404: responds with appropriate error message when given a non existant article_id to delete", () => {
+    return request(app)
+      .delete("/api/comments/4000")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+
+  test("400: responds with appropriate error message when given an invalid article_id", () => {
+    return request(app)
+      .delete("/api/comments/onion")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+});
