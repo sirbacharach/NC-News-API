@@ -39,9 +39,10 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getAllArticles = (req, res, next) => {
-  return selectAllArticles()
-    .then((allArticles) => {
-      res.status(200).send({ allArticles });
+  const { topic } = req.query;
+  return selectAllArticles(topic)
+    .then((articles) => {
+      res.status(200).send({ articles });
     })
     .catch(next);
 };
