@@ -25,3 +25,8 @@ exports.selectCommentById = (comment_id) => {
         return Promise.reject({ status: 404, msg: "not found" });
     });
 };
+
+exports.selectArticleCommentCount = (comment_count) => {
+  console.log(comment_count)
+  console.log("in model");
+};

@@ -330,3 +330,17 @@ describe("DELETE /api/comments/:comment_id", () => {
       });
   });
 });
+
+// describe("GET /api/articles/:article_id (comment_count)", () => {
+//   test.only("200: responds with object with a count of the total of the articles with the requested article_id", () =>{
+//     return request(app)
+//     .get("/api/articles/1?comment_count")
+//     .expect(200)
+//     .then(({body})=>{
+//     const {commentCount} = body;
+//     expect(commentCount[0]).toMatchObject({
+//       "count": 11
+//     })
+//     })
+//   })
+// })

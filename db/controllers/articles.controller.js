@@ -6,6 +6,7 @@ const {
   insertCommentsByArticleId,
   selectCommentsById,
 } = require("../models/articles.model");
+const { selectArticleCommentCount } = require("../models/comments.model");
 
 exports.postCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
@@ -56,5 +57,13 @@ exports.patchArticleById = (req, res, next) => {
       const updatedRecord = returnedPromise[0];
       res.status(200).send({ updatedRecord });
     })
+    .catch(next);
+};
+
+exports.getArticleCommentCount = (req, res, next) => {
+  const { comment_count } = req.params;
+  console.log("in controller");
+  return selectArticleCommentCount(comment_count)
+    .then((commentCount) => {})
     .catch(next);
 };
