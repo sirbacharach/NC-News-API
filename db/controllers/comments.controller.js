@@ -1,6 +1,6 @@
 const {
   deleteSelectedComment,
-  selectCommentById,
+  selectCommentById
 } = require("../models/comments.model");
 
 exports.deleteCommentById = (req, res, next) => {
