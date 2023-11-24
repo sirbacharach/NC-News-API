@@ -194,7 +194,7 @@ describe("GET /api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         const article = body.article;
-        expect(article).toMatchObject({
+        expect(article[0]).toMatchObject({
           author: expect.any(String),
           title: expect.any(String),
           article_id: 1,
@@ -377,31 +377,14 @@ test("200: returns empty array when the topic exists but there are no articles w
 describe("GET /api/articles/:article_id (comment_count)", () => {
   test("200: responds with object with a count of the total of the articles with the requested article_id", () => {
     return request(app)
-      .get("/api/articles/1?query=comment_count")
+      .get("/api/articles/1")
       .expect(200)
       .then(({ body }) => {
-        const { resultCount } = body;
-        expect(resultCount[0]).toMatchObject({
-          count: "11",
+        const { article } = body;
+        expect(article[0]).toMatchObject({
+          article_id: 1,
+          comment_count: "11",
         });
-      });
-  });
-
-  test("400: responds with error when given invalid article_id", () => {
-    return request(app)
-      .get("/api/articles/not_an_id?query=comment_count")
-      .expect(400)
-      .then(({ body }) => {
-        expect(body.msg).toBe("bad request");
-      });
-  });
-
-  test("404: responds with error when given a non existant article_id", () => {
-    return request(app)
-      .get("/api/articles/9999?query=comment_count")
-      .expect(404)
-      .then(({ body }) => {
-        expect(body.msg).toBe("not found");
       });
   });
 });

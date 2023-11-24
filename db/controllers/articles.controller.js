@@ -6,7 +6,6 @@ const {
   insertCommentsByArticleId,
   selectCommentsById,
 } = require("../models/articles.model");
-const { selectArticleCommentCount } = require("../models/comments.model");
 const { selectAllTopics } = require("../models/topics.model");
 
 exports.postCommentsByArticleId = (req, res, next) => {
@@ -33,22 +32,11 @@ exports.getArticleComments = (req, res, next) => {
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  const { query } = req.query;
-  if (query === "comment_count") {
-    const promise1 = selectArticleCommentCount(article_id);
-    const promise2 = selectArticleById(article_id);
-    return Promise.all([promise1, promise2])
-      .then((resultCount) => {
-        res.status(200).send({ resultCount: resultCount[0] });
-      })
-      .catch(next);
-  } else {
-    return selectArticleById(article_id)
-      .then((article) => {
-        res.status(200).send({ article });
-      })
-      .catch(next);
-  }
+  return selectArticleById(article_id)
+    .then((article) => {
+      res.status(200).send({ article });
+    })
+    .catch(next);
 };
 
 exports.getAllArticles = (req, res, next) => {
