@@ -7,8 +7,14 @@ records can be queried, added, updated and deleted.
 
 Here is the link to the hosted version: https://robs-nc-news.onrender.com/api/
 
+If you choose not to install locally and use the hosted version the link provided should take you to the api, which is a JSON containing a list of endpoints for you to type in to the address bad of your browser.
+in order to see the information in a more readable format, you could install a either some software or a chrome plugin such as JSON viewer.
 
 Setup instructions:
+
+Minimum version requirements
+Node v20.6.1
+psql(PostgresSQL) v15.4
 
 The following instructions assume you are using MS Visual Studio Code.
 
@@ -32,4 +38,6 @@ containing: PGDATABASE=nc_news
 6. run "npm install" to install the dependancies which are in the "package.json".
 
 7. Type "npm run setup-dbs", this will run the script to seed the database.
+
+8. you may now run the tests app.test.js and utils.test.js either individually with "npm test -filename-" or all at the same time with "npm test"
 
