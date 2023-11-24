@@ -7,3 +7,16 @@ exports.selectAllUsers = () => {
       return rows;
     });
 };
+
+exports.selectUserByUsername = (username) => {
+  return db
+    .query(
+      `SELECT username, avatar_url, name FROM users
+WHERE username = $1`,
+      [username]
+    )
+    .then(({ rows }) => {
+      console.log(rows);
+      return rows;
+    });
+};
