@@ -187,6 +187,39 @@ describe("GET /api/articles", () => {
   });
 });
 
+describe("GET /api/articles (sorting queries)", () => {
+  test("200: when given sort_by query, responds with articles sorted by the column named in the query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=title")
+      .expect(200)
+      .then(({ body }) => {
+        const articles = body.articles;
+        expect(articles).toBeSortedBy("title");
+        articles.forEach((article) => {
+          expect(article).toMatchObject({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            article_img_url: expect.any(String),
+            comment_count: expect.any(String),
+          });
+        });
+      });
+  });
+
+  test("400: responds with error when given a non existant sort_by query", () => {
+    return request(app)
+      .get("/api/articles?sort_by=non_existant_column")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+});
+
 describe("GET /api/articles/:article_id", () => {
   test("200: responds with an article object, which should have all relevant properties", () => {
     return request(app)
