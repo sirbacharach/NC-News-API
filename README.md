@@ -28,10 +28,10 @@ https://github.com/sirbacharach/Robs-News-API/tree/main
 4. You should create 2 files in the root folder containing the following information.
 
 file1 name: .env.test
-containing: PGDATABASE=nc_news_test
+containing: `PGDATABASE=nc_news_test`
 
 file2 name: .env.development
-containing: PGDATABASE=nc_news
+containing: `PGDATABASE=nc_news`
 
 5. ensure that they are added to your .gitignore file, they should be darker that the other file names if using visual studio code.
 
