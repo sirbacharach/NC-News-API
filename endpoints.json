@@ -28,7 +28,7 @@
   },
   "GET /api/articles/:article_id": {
     "description": "serves a single article of the given article_id",
-    "queries": ["comment_count"],
+    "queries": [],
     "exampleResponse": {
       "articles": [
         {
