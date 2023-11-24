@@ -69,7 +69,23 @@ exports.updateArticleById = (article_id, inc_votes) => {
     });
 };
 
-exports.selectAllArticles = (topic) => {
+exports.selectAllArticles = (topic, sort_by = "created_at", order = "ASC") => {
+  const validQueries = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+    "article_img_url",
+    "comment_count",
+  ];
+  const validOrders = ["ASC", "DESC"];
+
+  if (!validQueries.includes(sort_by) || !validOrders.includes(order)) {
+    return Promise.reject({ status: 400, msg: "bad request" });
+  }
+
   let queryString = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, articles.article_img_url, COUNT(comments.article_id) AS comment_count FROM articles
   LEFT JOIN comments
   ON comments.article_id = articles.article_id `;
@@ -78,8 +94,12 @@ exports.selectAllArticles = (topic) => {
     queryValue.push(topic);
     queryString += `WHERE topic = $1 `;
   }
-  queryString += `GROUP BY articles.article_id
-ORDER BY created_at;`;
+
+  queryString += `GROUP BY articles.article_id `;
+
+  if (sort_by && order && validOrders.includes(order)) {
+    queryString += `ORDER BY ${sort_by} ${order} `;
+  }
 
   return db.query(queryString, queryValue).then(({ rows }) => {
     return rows;
