@@ -228,6 +228,28 @@ describe("GET /api/articles/:article_id", () => {
   });
 });
 
+describe("GET /api/articles/:article_id (comment_count)", () => {
+  test("200: responds with object with a count of the total of the articles with the requested article_id", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article).toMatchObject({
+          author: expect.any(String),
+          title: expect.any(String),
+          article_id: 1,
+          body: expect.any(String),
+          topic: expect.any(String),
+          comment_count: "11",
+          created_at: expect.any(String),
+          votes: expect.any(Number),
+          article_img_url: expect.any(String),
+        });
+      });
+  });
+});
+
 describe("PATCH /api/articles/:article_id", () => {
   test("200: adds the amount of votes in the given votes object to the total votes of given article_id", () => {
     const newVotes = { inc_votes: 2 };
@@ -372,26 +394,4 @@ test("200: returns empty array when the topic exists but there are no articles w
       const { articles } = body;
       expect(articles).toHaveLength(0);
     });
-});
-
-describe("GET /api/articles/:article_id (comment_count)", () => {
-  test("200: responds with object with a count of the total of the articles with the requested article_id", () => {
-    return request(app)
-      .get("/api/articles/1")
-      .expect(200)
-      .then(({ body }) => {
-        const { article } = body;
-        expect(article).toMatchObject({
-          author: expect.any(String),
-          title: expect.any(String),
-          article_id: 1,
-          body: expect.any(String),
-          topic: expect.any(String),
-          comment_count: "11",
-          created_at: expect.any(String),
-          votes: expect.any(Number),
-          article_img_url: expect.any(String),
-        });
-      });
-  });
 });
