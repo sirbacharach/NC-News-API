@@ -378,14 +378,14 @@ describe("GET /api/users/:username", () => {
       });
   });
 
-//   test.only("404: responds with error when given username that doesn't exist", () => {
-//     return request(app)
-//       .get("/api/users/orion")
-//       .expect(404)
-//       .then(({ body }) => {
-//         expect(body.user).toBe("not found")
-//       });
-//   });
+  test("404: responds with error when given username that doesn't exist", () => {
+    return request(app)
+      .get("/api/users/orion")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
 });
 
 describe("DELETE /api/comments/:comment_id", () => {

@@ -11,4 +11,3 @@ app.use(psqlErrors);
 app.use(customErrors);
 
 module.exports = app;
-
