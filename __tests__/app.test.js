@@ -454,3 +454,66 @@ test("200: returns empty array when the topic exists but there are no articles w
       expect(articles).toHaveLength(0);
     });
 });
+
+describe("PATCH /api/comments/:comment_id", () => {
+  test("200: updates the votes on a comment given the comment's comment_id and positive number of votes.", () => {
+    const votesToAdd = { inc_votes: 3 };
+    return request(app)
+      .patch("/api/comments/1")
+      .expect(200)
+      .send(votesToAdd)
+      .then(({ body }) => {
+        const { updatedComment } = body;
+        expect(updatedComment).toMatchObject({
+          comment_id: 1,
+          body: expect.any(String),
+          article_id: 9,
+          author: "butter_bridge",
+          votes: 19,
+          created_at: expect.any(String),
+        });
+      });
+  });
+
+  test("200: updates the votes on a comment given the comment's comment_id and negative number of votes.", () => {
+    const votesToAdd = { inc_votes: -4 };
+    return request(app)
+      .patch("/api/comments/15")
+      .expect(200)
+      .send(votesToAdd)
+      .then(({ body }) => {
+        const { updatedComment } = body;
+        expect(updatedComment).toMatchObject({
+          comment_id: 15,
+          body: expect.any(String),
+          article_id: 5,
+          author: "butter_bridge",
+          votes: -3,
+          created_at: expect.any(String),
+        });
+      });
+  });
+
+  test("404: responds with error when given non existant comment_id.", () => {
+    const votesToAdd = { inc_votes: -4 };
+    return request(app)
+      .patch("/api/comments/9999")
+      .expect(404)
+      .send(votesToAdd)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+
+  test("400: responds with error when given invalid comment_id.", () => {
+    const votesToAdd = { inc_votes: -4 };
+    return request(app)
+      .patch("/api/comments/not_an_id")
+      .expect(400)
+      .send(votesToAdd)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+
+});

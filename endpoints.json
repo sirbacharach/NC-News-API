@@ -108,5 +108,17 @@
     "description": "deletes the chosen record",
     "queries": [],
     "exampleResponse": { "status": 404, "msg": "not found" }
+  },
+  "PATCH /api/comments/:comment_id": {
+    "description": "updates the votes field of the given comment_id with a negative or positive number, requires an object with the key of inc_votes and a positive or negative integer as the value",
+    "queries": [],
+    "exampleResponse":     {
+      "comment_id": "15",
+      "body": "I am 100% sure that we're not completely sure.",
+      "article_id": 5,
+      "author": "butter_bridge",
+      "votes": -3,
+      "created_at": "2020-11-24T00:08:00.000Z"
+    }
   }
 }

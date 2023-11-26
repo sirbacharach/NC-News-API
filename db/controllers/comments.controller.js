@@ -1,6 +1,7 @@
 const {
   deleteSelectedComment,
-  selectCommentById
+  selectCommentById,
+  updateCommentsByCommentId,
 } = require("../models/comments.model");
 
 exports.deleteCommentById = (req, res, next) => {
@@ -13,4 +14,15 @@ exports.deleteCommentById = (req, res, next) => {
       res.status(response[0].status).send();
     })
     .catch(next);
+};
+
+exports.patchCommentsByCommentId = (req, res, next) => {
+  const { comment_id } = req.params;
+  const { inc_votes } = req.body;
+  return updateCommentsByCommentId(comment_id, inc_votes).then(
+    (updatedComment) => {
+      res.status(200).send({ updatedComment: updatedComment[0] });
+    }
+  )
+  .catch(next)
 };
