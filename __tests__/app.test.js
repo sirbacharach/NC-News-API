@@ -362,6 +362,32 @@ describe("GET /api/users", () => {
   });
 });
 
+describe("GET /api/users/:username", () => {
+  test("200: responds with a user object", () => {
+    return request(app)
+      .get("/api/users/rogersop")
+      .expect(200)
+      .then(({ body }) => {
+        const user = body.user;
+        expect(user).toMatchObject({
+          username: "rogersop",
+          name: "paul",
+          avatar_url:
+            "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4",
+        });
+      });
+  });
+
+  test("404: responds with error when given username that doesn't exist", () => {
+    return request(app)
+      .get("/api/users/orion")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+});
+
 describe("DELETE /api/comments/:comment_id", () => {
   test("204: responds with appropriate message when given an article_id to delete", () => {
     return request(app).delete("/api/comments/2").expect(204);
