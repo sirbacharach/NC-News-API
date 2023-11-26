@@ -1,3 +1,5 @@
+const format = require("pg-format");
+
 exports.convertTimestampToDate = ({ created_at, ...otherProperties }) => {
   if (!created_at) return { ...otherProperties };
   return { created_at: new Date(created_at), ...otherProperties };
@@ -19,4 +21,12 @@ exports.formatComments = (comments, idLookup) => {
       ...this.convertTimestampToDate(restOfComment),
     };
   });
+};
+
+exports.formatArticle = (articleToFormat) => {
+  const formattedArticle = []
+  for (const key in articleToFormat) {
+    formattedArticle.push(articleToFormat[key])
+  }
+  return formattedArticle;
 };

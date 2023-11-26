@@ -1,4 +1,6 @@
 const db = require("../connection");
+const { formatArticle, convertTimestampToDate } = require("../seeds/utils");
+const format = require("pg-format")
 
 exports.insertCommentsByArticleId = (article_id, commentToInsert) => {
   const body = commentToInsert.body;
@@ -118,4 +120,13 @@ WHERE article_id = $1`,
         return Promise.reject({ status: 404, msg: "not found" });
       }
     });
+};
+
+exports.insertArticle = (articleToPost) => {
+  const formattedArticle = formatArticle(articleToPost)
+  return db.query(format('INSERT INTO articles (author, title, body, topic) VALUES %L RETURNING *', [formattedArticle]))
+
+.then(({rows})=>{
+  return rows
+})
 };
