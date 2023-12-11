@@ -2,6 +2,7 @@ const {
   convertTimestampToDate,
   createRef,
   formatComments,
+  formatArticle,
 } = require("../db/seeds/utils");
 
 describe("convertTimestampToDate", () => {
@@ -102,3 +103,25 @@ describe("formatComments", () => {
     expect(formattedComments[0].created_at).toEqual(new Date(timestamp));
   });
 });
+
+describe("formatArticle",()=>{
+  test("when given empty object, returns empty array",()=>{
+    const input = {};
+    const expected = [];
+    const actual = formatArticle(input)
+    expect(actual).toEqual(expected);
+  })
+
+  test("when given a single object, returns array with each of the values in each array item",()=>{
+    const input = {
+      author: "butter_bridge",
+      title: "Woodlice, the distant relative of the cat",
+      body: "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.",
+      topic: "cats",
+    };
+    const expected = ["butter_bridge", "Woodlice, the distant relative of the cat", "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.", "cats"];
+    const actual = formatArticle(input)
+    expect(actual).toEqual(expected);
+  })
+
+})

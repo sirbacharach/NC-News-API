@@ -5,6 +5,7 @@ const {
   updateArticleById,
   insertCommentsByArticleId,
   selectCommentsById,
+  insertArticle,
 } = require("../models/articles.model");
 const { selectAllTopics } = require("../models/topics.model");
 
@@ -62,4 +63,18 @@ exports.patchArticleById = (req, res, next) => {
       res.status(200).send({ updatedRecord });
     })
     .catch(next);
+};
+
+exports.postArticle = (req, res, next) => {
+  const articleToPost = req.body;
+  return insertArticle(articleToPost)
+  .then((addedArticle) => {
+    const article_id = (addedArticle[0].article_id).toString() ;
+    return selectArticleById(article_id)
+      .then((article) => {
+        console.log(article);
+        res.status(200).send({ article: article[0] });
+      })
+      .catch(next);
+  });
 };
