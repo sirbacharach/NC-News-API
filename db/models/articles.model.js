@@ -57,7 +57,6 @@ exports.selectArticleById = (article_id) => {
 };
 
 exports.updateArticleById = (article_id, inc_votes) => {
-  if (inc_votes < 1) return Promise.reject({ status: 400, msg: "bad request" });
   return db
     .query(
       `UPDATE articles
