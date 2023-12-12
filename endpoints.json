@@ -89,7 +89,7 @@
 
   "PATCH /api/articles/:article_id": {
     "description": "updates the votes column of the article with thespecified article_id adding the provided votes, an object with key of inc_votes, with an integer value needs to also be provided",
-    "questies": [],
+    "queries": [],
     "exampleResponse": {
       "articles": [
         {
