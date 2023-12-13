@@ -101,7 +101,6 @@ exports.selectAllArticles = (topic, sort_by = "created_at", order = "ASC") => {
   if (sort_by && order && validOrders.includes(order)) {
     queryString += `ORDER BY ${sort_by} ${order} `;
   }
-
   return db.query(queryString, queryValue).then(({ rows }) => {
     return rows;
   });
@@ -111,7 +110,8 @@ exports.selectCommentsById = (article_id) => {
   return db
     .query(
       `SELECT * FROM comments
-WHERE article_id = $1`,
+WHERE article_id = $1
+ORDER BY comment_id DESC`,
       [article_id]
     )
     .then(({ rows }) => {
