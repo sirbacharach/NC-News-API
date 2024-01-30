@@ -21,8 +21,8 @@ exports.selectCommentById = (comment_id) => {
       [comment_id]
     )
     .then(({ rows }) => {
-      if (!rows.length)
-        return Promise.reject({ status: 404, msg: "not found SelComId" });
+      // if (!rows.length) return Promise.reject({ status: 404, msg: "not found SelComId" });
+      return rows
     });
 };
 
