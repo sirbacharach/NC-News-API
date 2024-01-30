@@ -22,7 +22,7 @@ exports.selectCommentById = (comment_id) => {
     )
     .then(({ rows }) => {
       if (!rows.length)
-        return Promise.reject({ status: 404, msg: "not found" });
+        return Promise.reject({ status: 404, msg: "not found SelComId" });
     });
 };
 
@@ -36,7 +36,7 @@ exports.updateCommentsByCommentId = (comment_id, inc_votes) => {
       [inc_votes, comment_id]
     )
     .then(({rows}) => {
-      if (!rows.length) return Promise.reject({status:404, msg: "not found"})
+      if (!rows.length) return Promise.reject({status:404, msg: "not found UpdComId"})
       return rows;
     });
 };
