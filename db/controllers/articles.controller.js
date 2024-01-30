@@ -72,7 +72,6 @@ exports.postArticle = (req, res, next) => {
     const article_id = (addedArticle[0].article_id).toString() ;
     return selectArticleById(article_id)
       .then((article) => {
-        console.log(article);
         res.status(200).send({ article: article[0] });
       })
       .catch(next);
