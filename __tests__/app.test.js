@@ -382,14 +382,14 @@ describe("DELETE /api/comments/:comment_id", () => {
     return request(app).delete("/api/comments/2").expect(204);
   });
 
-  // test("404: responds with appropriate error message when given a non existant article_id to delete", () => {
-  //   return request(app)
-  //     .delete("/api/comments/4000")
-  //     .expect(404)
-  //     .then(({ body }) => {
-  //       expect(body.msg).toBe("not found");
-  //     });
-  // });
+  test("404: responds with appropriate error message when given a non existant article_id to delete", () => {
+    return request(app)
+      .delete("/api/comments/4000")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
 
   test("400: responds with appropriate error message when given an invalid article_id", () => {
     return request(app)
@@ -483,16 +483,16 @@ describe("PATCH /api/comments/:comment_id", () => {
       });
   });
 
-  // test("404: responds with error when given non existant comment_id.", () => {
-  //   const votesToAdd = { inc_votes: -4 };
-  //   return request(app)
-  //     .patch("/api/comments/9999")
-  //     .expect(404)
-  //     .send(votesToAdd)
-  //     .then(({ body }) => {
-  //       expect(body.msg).toBe("not found");
-  //     });
-  // });
+  test("404: responds with error when given non existant comment_id.", () => {
+    const votesToAdd = { inc_votes: -4 };
+    return request(app)
+      .patch("/api/comments/9999")
+      .expect(404)
+      .send(votesToAdd)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
 
   test("400: responds with error when given invalid comment_id.", () => {
     const votesToAdd = { inc_votes: -4 };
@@ -506,30 +506,30 @@ describe("PATCH /api/comments/:comment_id", () => {
   });
 });
 
-// describe("POST /api/articles", () => {
-//   test.only("200: responds with the newly added article object", () => {
-//     const articleToPost = {
-//       author: "butter_bridge",
-//       title: "Woodlice, the distant relative of the cat",
-//       body: "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.",
-//       topic: "cats",
-//     }
-//     return request(app)
-//       .post("/api/articles")
-//       .expect(200)
-//       .send(articleToPost)
-//       .then(({ body }) => {
-//         const {article} = body ;
-//         console.log(article, "test")
-//         expect(article).toMatchObject({
-//           article_id: 14,
-//           author: "butter_bridge",
-//           title: "Woodlice, the distant relative of the cat",
-//           body: "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.",
-//           topic: "cats",
-//           votes: 0,
-//           created_at: expect.any(String)
-//         });
-//       });
-//   });
-// });
+describe("POST /api/articles", () => {
+  test.only("200: responds with the newly added article object", () => {
+    const articleToPost = {
+      author: "butter_bridge",
+      title: "Woodlice, the distant relative of the cat",
+      body: "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.",
+      topic: "cats",
+    }
+    return request(app)
+      .post("/api/articles")
+      .expect(200)
+      .send(articleToPost)
+      .then(({ body }) => {
+        const {article} = body ;
+        console.log(article, "test")
+        expect(article).toMatchObject({
+          article_id: 14,
+          author: "butter_bridge",
+          title: "Woodlice, the distant relative of the cat",
+          body: "Contrary to popular belief, woodlice are crustaciens, they breathe through gills in a similar way to fish, this is why you'll mainly find these little creatures in moist or damp environments as they need a thin layer of water on their gills in order to be able to breath. If you see one scampering across your carpet, it is probably gasping for air.",
+          topic: "cats",
+          votes: 0,
+          created_at: expect.any(String)
+        });
+      });
+  });
+});
